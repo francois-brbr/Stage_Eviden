@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: postgres
+    database: postgres
+    schema: public
+    tables:
+      - name: stock_data
+
+models:
+  - name: combined_correlations
+    description: "Combines Pearson correlation calculations between different indices"
+    columns:
+      - name: index_a
+        description: "First index used in the correlation calculation"
+        data_tests:
+          - not_null
+      - name: index_b
+        description: "Second index used in the correlation calculation"
+        data_tests:
+          - not_null
+      - name: correlation
+        description: "Correlation between the two indices"
+        data_tests:
+          - not_null
