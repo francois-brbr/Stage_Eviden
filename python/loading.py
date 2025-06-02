@@ -11,7 +11,7 @@ db_config = {
 }
 
 # Chemin vers le fichier .csv
-csv_file_path = 'stock_data_prices.csv'
+csv_file_path = '../data/stock_data_prices.csv'
 
 table_name = 'stock_data'
 

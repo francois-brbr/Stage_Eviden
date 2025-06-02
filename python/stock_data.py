@@ -20,4 +20,4 @@ for ticker in tickers:
         print(f"Failed to download data for {ticker}: {e}")
 
 # Enregistrement des données
-data.to_csv("stock_data_prices.csv")
+data.to_csv("../data/stock_data_prices.csv")
