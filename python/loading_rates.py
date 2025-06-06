@@ -11,8 +11,10 @@ db_config = {
 }
 
 # Chemin vers le fichier .csv
-csv_file_path = 'interest_rates_usa.csv'
+#csv_file_path = '../data/inflation_rates.csv'
+csv_file_path = '../data/interest_rates.csv'
 
+#table_name = 'inflation_rates'
 table_name = 'interest_rates'
 
 # Connexion à la base de données
@@ -22,13 +24,12 @@ cursor = conn.cursor()
 # Création de la table
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {table_name} (
-    date DATE,
-    GSPC FLOAT,
-    STOXX50E FLOAT,
-    FCHI FLOAT,
-    NASDAQ FLOAT,
-    DJI FLOAT,
-    N225 FLOAT
+    Date DATE,
+    USA FLOAT,
+    Japon FLOAT,
+    France FLOAT,
+    Europe FLOAT
+
 );
 """
 cursor.execute(create_table_query)
@@ -46,14 +47,12 @@ with open(csv_file_path, 'r') as f:
     next(reader)
 
     # Création de la requête d'insertion
-    insert_query = f"INSERT INTO {table_name} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    insert_query = f"INSERT INTO {table_name} (Date, USA, Japon, France, Europe) VALUES (%s, %s, %s, %s, %s)"
 
-    # Insertion des données
     for row in reader:
-        # Remplacer les valeurs vides par None
-        processed_row = [None if value == '' else value for value in row]
+        print(row)  # Print the processed row to debug
+        cursor.execute(insert_query, row)
 
-        cursor.execute(insert_query, processed_row)
 
 # Validation des changements
 conn.commit()
