@@ -4,14 +4,14 @@ from io import StringIO
 
 # Configuration de la connexion à la base de données PostgreSQL
 db_config = {
-    "host": "localhost",
+    "host": "host.docker.internal", #localhost
     "database": "postgres",
     "user": "postgres",
     "password": "Volubilis31*",
 }
 
 # Chemin vers le fichier .csv
-csv_file_path = '../data/stock_data_prices.csv'
+csv_file_path = '/usr/local/airflow/data/stock_data_prices.csv'
 
 table_name = 'stock_data'
 

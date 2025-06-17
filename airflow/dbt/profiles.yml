@@ -1,9 +1,9 @@
-stock_data:  # This should match the profile name in your dbt_project.yml
+stock_data: 
   target: dev
   outputs:
     dev:
       type: postgres
-      host: localhost
+      host: host.docker.internal
       user: postgres
       password: Volubilis31*
       dbname: postgres
