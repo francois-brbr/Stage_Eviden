@@ -4,18 +4,16 @@ from io import StringIO
 
 # Configuration de la connexion à la base de données PostgreSQL
 db_config = {
-    "host": "localhost",
+    "host": "host.docker.internal", #local
     "database": "postgres",
     "user": "postgres",
     "password": "Volubilis31*",
 }
 
 # Chemin vers le fichier .csv
-#csv_file_path = '../data/inflation_rates.csv'
-csv_file_path = '../data/interest_rates.csv'
+csv_file_path = '/usr/local/airflow/data/inflation_rates.csv'
 
-#table_name = 'inflation_rates'
-table_name = 'interest_rates'
+table_name = 'inflation_rates'
 
 # Connexion à la base de données
 conn = psycopg2.connect(**db_config)
@@ -33,6 +31,10 @@ CREATE TABLE IF NOT EXISTS {table_name} (
 );
 """
 cursor.execute(create_table_query)
+conn.commit()
+
+clear_table_query = f"TRUNCATE TABLE {table_name};"
+cursor.execute(clear_table_query)
 conn.commit()
 
 # Lecture du fichier CSV
