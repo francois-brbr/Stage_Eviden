@@ -38,4 +38,4 @@ with DAG('dbt_orchestration', default_args=default_args, schedule_interval='@dai
         bash_command=f"cd {DBT_PATH} && dbt run --profiles-dir {DBT_PATH}",
     ) # derniere etape du workflow : script dbt > transformation de donnees et insertion en bdd
 
-    run_load_data >> run_insert_data >> dbt_run # orchestration du workflow
+    run_load_data >> run_insert_data >> dbt_run # orchestration du workflow - maj journaliere des differents indices

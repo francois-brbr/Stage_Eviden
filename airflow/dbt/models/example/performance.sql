@@ -1,3 +1,5 @@
+-- models/performance.sql
+
 WITH first_values AS (
     SELECT
         FIRST_VALUE(nasdaq) OVER (ORDER BY date) AS first_nasdaq,
@@ -24,7 +26,7 @@ last_values AS (
 )
 
 SELECT
-    'NASDAQ' AS index_name,
+    'NASDAQ' AS indice,
     ROUND(((last_nasdaq - first_nasdaq) / NULLIF(first_nasdaq, 0) * 100)::numeric, 2) AS performance,
     first_nasdaq AS first_value,
     last_nasdaq AS last_value
@@ -33,7 +35,7 @@ FROM first_values, last_values
 UNION ALL
 
 SELECT
-    'DOW JONHS INDUSTRIAL' AS index_name,
+    'DOW JONHS INDUSTRIAL' AS indice,
     ROUND(((last_dji - first_dji) / NULLIF(first_dji, 0) * 100)::numeric, 2) AS performance,
     first_dji AS first_value,
     last_dji AS last_value
@@ -42,7 +44,7 @@ FROM first_values, last_values
 UNION ALL
 
 SELECT
-    'CAC40' AS index_name,
+    'CAC40' AS indice,
     ROUND(((last_fchi - first_fchi) / NULLIF(first_fchi, 0) * 100)::numeric, 2) AS performance,
     first_fchi AS first_value,
     last_fchi AS last_value
@@ -51,7 +53,7 @@ FROM first_values, last_values
 UNION ALL
 
 SELECT
-    'S&P500' AS index_name,
+    'S&P500' AS indice,
     ROUND(((last_gspc - first_gspc) / NULLIF(first_gspc, 0) * 100)::numeric, 2) AS performance,
     first_gspc AS first_value,
     last_gspc AS last_value
@@ -60,7 +62,7 @@ FROM first_values, last_values
 UNION ALL
 
 SELECT
-    'NIKKEI225' AS index_name,
+    'NIKKEI225' AS indice,
     ROUND(((last_n225 - first_n225) / NULLIF(first_n225, 0) * 100)::numeric, 2) AS performance,
     first_n225 AS first_value,
     last_n225 AS last_value
@@ -69,7 +71,7 @@ FROM first_values, last_values
 UNION ALL
 
 SELECT
-    'EURO STOXX50E' AS index_name,
+    'EURO STOXX50E' AS indice,
     ROUND((last_stoxx50e - first_stoxx50e) / NULLIF(first_stoxx50e, 0) * 100) AS performance,
     first_stoxx50e AS first_value,
     last_stoxx50e AS last_value

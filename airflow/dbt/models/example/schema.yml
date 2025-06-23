@@ -8,18 +8,53 @@ sources:
       - name: stock_data
 
 models:
-  - name: combined_correlations
-    description: "Combines Pearson correlation calculations between different indices"
+  - name: performance
+    description: "Calcule la performance des indices boursiers entre la première et la dernière valeur."
+    tests:
+      - not_null:
+          column_name: indice
+      - not_null:
+          column_name: performance
+      - not_null:
+          column_name: first_value
+      - not_null:
+          column_name: last_value
     columns:
-      - name: index_a
-        description: "First index used in the correlation calculation"
-        data_tests:
-          - not_null
-      - name: index_b
-        description: "Second index used in the correlation calculation"
-        data_tests:
-          - not_null
+      - name: indice
+        description: "Nom de l'indice boursier."
+      - name: performance
+        description: "Performance de l'indice en pourcentage."
+      - name: first_value
+        description: "Première valeur enregistrée de l'indice."
+      - name: last_value
+        description: "Dernière valeur enregistrée de l'indice."
+
+  - name: correlation
+    description: "Calcule les corrélations entre différentes paires d'indices boursiers."
+    tests:
+      - not_null:
+          column_name: indice_a
+      - not_null:
+          column_name: indice_b
+      - not_null:
+          column_name: correlation
+    columns:
+      - name: indice_a
+        description: "Nom du premier indice dans la paire de corrélation."
+      - name: indice_b
+        description: "Nom du second indice dans la paire de corrélation."
       - name: correlation
-        description: "Correlation between the two indices"
-        data_tests:
-          - not_null
+        description: "Coefficient de corrélation entre les deux indices."
+
+
+  - name: interest_rates_real
+    description: "Calcule les taux d'intérets réels ajustés à l'inflation."
+    columns:
+      - name: USA
+        description: "Taux ajustés USA."
+      - name: Japon
+        description: "Taux ajustés Japon."
+      - name: France
+        description: "Taux ajustés France."
+      - name: Europe
+        description: "Taux ajustés Europe."

@@ -3,7 +3,7 @@ stock_data:
   outputs:
     dev:
       type: postgres
-      host: host.docker.internal
+      host: host.docker.internal #localhost
       user: postgres
       password: Volubilis31*
       dbname: postgres
