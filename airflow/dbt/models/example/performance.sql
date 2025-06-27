@@ -8,7 +8,7 @@ WITH first_values AS (
         FIRST_VALUE(gspc) OVER (ORDER BY date) AS first_gspc,
         FIRST_VALUE(n225) OVER (ORDER BY date) AS first_n225,
         FIRST_VALUE(stoxx50e) OVER (ORDER BY date) AS first_stoxx50e
-    FROM public.stock_data
+    FROM public.stock_data_prices
     WHERE nasdaq IS NOT NULL AND dji IS NOT NULL AND fchi IS NOT NULL AND gspc IS NOT NULL AND n225 IS NOT NULL AND stoxx50e IS NOT NULL
     LIMIT 1
 ),
@@ -21,7 +21,7 @@ last_values AS (
         LAST_VALUE(gspc) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_gspc,
         LAST_VALUE(n225) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_n225,
         LAST_VALUE(stoxx50e) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_stoxx50e
-    FROM public.stock_data
+    FROM public.stock_data_prices
     LIMIT 1
 )
 

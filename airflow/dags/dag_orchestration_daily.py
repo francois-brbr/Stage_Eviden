@@ -35,7 +35,7 @@ with DAG('dag_dbt_orchestration_daily', default_args=default_args, schedule_inte
 
     dbt_run = BashOperator(
         task_id="dbt_run",
-        bash_command=f"cd {DBT_PATH} && dbt run --profiles-dir {DBT_PATH}",
+        bash_command=f"cd {DBT_PATH} && dbt run --profiles-dir {DBT_PATH}", #--models average_volume corrrelation performance
     ) # derniere etape du workflow : script dbt > transformation de donnees et insertion en bdd
 
     run_load_stock_prices_daily >> run_insert_stock_prices_daily >> dbt_run # orchestration du workflow - maj journaliere des differents indices

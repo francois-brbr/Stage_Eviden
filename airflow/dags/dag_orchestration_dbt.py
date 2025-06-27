@@ -54,4 +54,5 @@ with DAG('dag_load_insert_dbt_orchestration', default_args=default_args, schedul
         bash_command=f"cd {DBT_PATH} && dbt run --profiles-dir {DBT_PATH}",
     ) # derniere etape du workflow : script dbt > transformation de donnees et insertion en bdd
 
-    run_load_stock_prices >> run_insert_stock_prices >>  run_insert_interest_rates >> run_insert_inflation_rates >>  dbt_run # orchestration du workflow - maj journaliere des differents indices
+    #run_load_stock_prices >> run_insert_stock_prices >>  run_insert_interest_rates >> run_insert_inflation_rates >>  dbt_run # orchestration du workflow - maj journaliere des differents indices
+    dbt_run

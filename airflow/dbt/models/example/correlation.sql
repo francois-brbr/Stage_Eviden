@@ -6,7 +6,7 @@ WITH nasdaq_gspc_correlation AS (
         'S&P500' AS indice_b,
         ROUND(CORR(nasdaq, gspc)::numeric, 2) AS correlation
     FROM
-        public.stock_data
+        public.stock_data_prices
 ),
 
 nasdaq_dji_correlation AS (
@@ -15,7 +15,7 @@ nasdaq_dji_correlation AS (
         'DOW JOHNS INDUSTRIAL' AS indice_b,
         ROUND(CORR(nasdaq, dji)::numeric, 2) AS correlation
     FROM
-        public.stock_data
+        public.stock_data_prices
 ),
 
 gspc_dji_correlation AS (
@@ -24,7 +24,7 @@ gspc_dji_correlation AS (
         'DOW JOHNS INDUSTRIAL' AS indice_b,
         ROUND(CORR(gspc, dji)::numeric, 2) AS correlation
     FROM
-        public.stock_data
+        public.stock_data_prices
 ),
 
 
@@ -34,7 +34,7 @@ cac40_stoxx50_correlation AS (
         'EURO STOXX50E' AS indice_b,
         ROUND(CORR(fchi, stoxx50e)::numeric, 2) AS correlation
     FROM
-        public.stock_data
+        public.stock_data_prices
 )
 
 SELECT * FROM nasdaq_gspc_correlation

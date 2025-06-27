@@ -5,7 +5,11 @@ sources:
     database: postgres
     schema: public
     tables:
-      - name: stock_data
+      - name: stock_data_prices
+      - name: inflation_rates
+      - name: interest_rates
+      - name: stock_data_volumes
+
 
 models:
   - name: performance
@@ -58,3 +62,24 @@ models:
         description: "Taux ajustés France."
       - name: Europe
         description: "Taux ajustés Europe."
+
+  - name: average_volume
+    description: "Calcule le volume moyen échangé par jour par indice."
+    columns:
+      - name: indice
+        description: "Nom de l'indice boursier."
+      - name: average_volume
+        description: "Volume moyen de l'indice échangé."
+
+  - name: cumulative_inflation
+    description: "Calcule l'inflation cumulée au fil des années."
+    columns:
+      - name: région
+      - name: taux_inflation_cumulé
+
+
+  - name: cumulative_interest
+    description: "Calcule les taux d'intérets cumulés au fil des années."
+    columns:
+      - name: région
+      - name: taux_interest_cumulé
