@@ -35,6 +35,15 @@ cac40_stoxx50_correlation AS (
         ROUND(CORR(fchi, stoxx50e)::numeric, 2) AS correlation
     FROM
         public.stock_data_prices
+),
+
+cac40_nikkei_correlation AS (
+    SELECT
+        'CAC40' AS indice_a,
+        'NIKKEI225' AS indice_b,
+        ROUND(CORR(fchi, n225)::numeric, 2) AS correlation
+    FROM
+        public.stock_data_prices
 )
 
 SELECT * FROM nasdaq_gspc_correlation
@@ -44,3 +53,5 @@ UNION ALL
 SELECT * FROM gspc_dji_correlation
 UNION ALL
 SELECT * FROM cac40_stoxx50_correlation
+UNION ALL
+SELECT * FROM cac40_nikkei_correlation
