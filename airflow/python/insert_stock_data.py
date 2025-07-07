@@ -85,21 +85,18 @@ conn.commit()
 
 # Lecture du fichier CSV
 with open(csv_file_path2, 'r') as f:
-    # Utilisation de StringIO pour simuler un fichier en mémoire
-    csv_data = StringIO(f.read())
+    
+    csv_data = StringIO(f.read()) # Utilisation de StringIO pour simuler un fichier en mémoire
 
-    # Utilisation de csv.reader pour lire le fichier CSV
-    reader = csv.reader(csv_data)
+    reader = csv.reader(csv_data) # Utilisation de csv.reader pour lire le fichier CSV
 
-    # Lecture de l'en-tête pour obtenir les noms de colonnes
-    next(reader)
+    next(reader) # Lecture de l'en-tête pour obtenir les noms de colonnes
 
-    # Création de la requête d'insertion
-    insert_query = f"INSERT INTO {table_name2} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    insert_query = f"INSERT INTO {table_name2} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)" # Création de la requête d'insertion
 
     # Insertion des données
     for row in reader:
-        # Remplacer les valeurs vides par None
+        # Remplacer les valeurs vides par None afin d'éviter des erreurs
         processed_row = [None if value == '' else value for value in row]
 
         cursor.execute(insert_query, processed_row)

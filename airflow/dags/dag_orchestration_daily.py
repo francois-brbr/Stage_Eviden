@@ -7,10 +7,10 @@ from airflow.operators.python_operator import PythonOperator
 DBT_PATH =  "/usr/local/airflow/dbt"
 
 def load_stock_prices_daily():
-    exec(open("/usr/local/airflow/python/load_stock_prices_daily.py").read())
+    exec(open("/usr/local/airflow/python/load_stock_data_daily.py").read())
 
 def insert_stock_prices_daily():
-    exec(open("/usr/local/airflow/python/insert_stock_prices_daily.py").read())
+    exec(open("/usr/local/airflow/python/insert_stock_data_daily.py").read())
 
 default_args = {
     'owner': 'airflow',
@@ -18,7 +18,7 @@ default_args = {
     'start_date': datetime(2025, 1, 1),
     'email_on_failure': False,
     'email_on_retry': False,
-    'retries': 1,
+    'retries': 0,
 }
 
 with DAG('dag_dbt_orchestration_daily', default_args=default_args, schedule_interval=timedelta(days=1),  catchup=False) as dag:
