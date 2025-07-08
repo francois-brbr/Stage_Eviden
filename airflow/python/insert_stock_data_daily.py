@@ -1,60 +1,76 @@
 import psycopg2
 import csv
+import os
+from dotenv import load_dotenv
 from io import StringIO
+
+# Charger les variables d'environnement à partir du fichier .env
+load_dotenv()
 
 # Configuration de la connexion à la base de données PostgreSQL
 db_config = {
-    "host": "host.docker.internal",
-    "database": "postgres",
-    "user": "postgres",
-    "password": "Volubilis31*",
+    "host": os.getenv("DB_HOST"),
+    "database": os.getenv("DB_DATABASE"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
 }
 
-# Chemins vers les fichiers CSV
-csv_file_path = '/usr/local/airflow/data/new_stock_data_prices.csv'
-csv_file_path2 = '/usr/local/airflow/data/new_stock_data_volumes.csv'
+# Chemins vers les fichiers .csv
+csv_file_path_price = '/usr/local/airflow/data/new_stock_data_prices.csv'
+csv_file_volume = '/usr/local/airflow/data/new_stock_data_volumes.csv'
 
-table_name = 'stock_data_prices'
-table_name2 = 'stock_data_volumes'
+# Nom des tables
+table_price = 'stock_data_prices'
+table_volume = 'stock_data_volumes'
 
-def insert_data_from_csv(file_path, table):
-    with open(file_path, 'r') as f:
-        csv_data = StringIO(f.read())
-        reader = csv.reader(csv_data)
-        next(reader)  # Sauter l'en-tête
+# Connexion à la base de données
+conn = psycopg2.connect(**db_config)
+cursor = conn.cursor()
 
-        for row in reader:
-            date = row[0]  # Supposons que la date est la première colonne
+
+# ----------------------------------------------------------------- INSERTION PRICES --------------------------------------------------------------------- #
+
+with open(csv_file_path_price, 'r') as f: # Lecture du fichier "new_stock_data_prices.csv"
+
+    csv_data = StringIO(f.read())  # Utilisation de StringIO pour simuler un fichier en mémoire
+
+    reader = csv.reader(csv_data) # Utilisation de csv.reader pour lire le fichier CSV
+
+    next(reader) # Lecture de l'en-tête pour obtenir les noms de colonnes
+
+    for row in reader:
+            date = row[0]  # La première colonne est la date
             processed_row = [None if value == '' else value for value in row]
-
-            # Vérifier si la date existe déjà dans la table
-            cursor.execute(f"SELECT 1 FROM {table} WHERE date = %s", (date,))
+            cursor.execute(f"SELECT 1 FROM {table_price} WHERE date = %s", (date,))  # Vérifier si la date existe déjà dans la table
             if cursor.fetchone() is None:
-                # Si la date n'existe pas, insérer les données
-                insert_query = f"INSERT INTO {table} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                insert_query = f"INSERT INTO {table_price} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)" # Si la date n'existe pas, insérer les données
                 cursor.execute(insert_query, processed_row)
 
-try:
-    # Connexion à la base de données
-    conn = psycopg2.connect(**db_config)
-    cursor = conn.cursor()
+conn.commit() # Validation des changements
 
-    # Insertion des données à partir des fichiers CSV
-    insert_data_from_csv(csv_file_path, table_name)
-    insert_data_from_csv(csv_file_path2, table_name2)
 
-    # Validation des changements
-    conn.commit()
+# -------------------------------------------------------------------- INSERTION VOLUMES ---------------------------------------------------------------------- #
 
-except Exception as e:
-    print(f"Une erreur est survenue : {e}")
-    conn.rollback()
+with open(csv_file_volume, 'r') as f: # Lecture du fichier csv_file_volume
+    
+    csv_data = StringIO(f.read()) # Utilisation de StringIO pour simuler un fichier en mémoire
 
-finally:
-    # Fermeture de la connexion
-    if 'cursor' in locals():
-        cursor.close()
-    if 'conn' in locals():
-        conn.close()
+    reader = csv.reader(csv_data) # Utilisation de csv.reader pour lire le fichier CSV
+
+    next(reader) # Lecture de l'en-tête pour obtenir les noms de colonnes
+
+    for row in reader: # Insertion des données
+            date = row[0] 
+            processed_row = [None if value == '' else value for value in row]
+            cursor.execute(f"SELECT 1 FROM {table_volume} WHERE date = %s", (date,)) # Vérifier si la date existe déjà dans la table
+            if cursor.fetchone() is None:
+                insert_query = f"INSERT INTO {table_volume} (date, GSPC, STOXX50E, FCHI, NASDAQ, DJI, N225) VALUES (%s, %s, %s, %s, %s, %s, %s)"  # Si la date n'existe pas, insérer les données
+                cursor.execute(insert_query, processed_row)
+
+conn.commit() # Validation des changements
+
+# Fermeture de la connexion
+cursor.close()
+conn.close()
 
 print("Données insérées avec succès.")

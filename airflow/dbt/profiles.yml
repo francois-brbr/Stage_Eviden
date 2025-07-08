@@ -5,7 +5,7 @@ stock_data:
       type: postgres
       host: host.docker.internal #localhost
       user: postgres
-      password: Volubilis31*
+      password: Eviden2025BDX**
       dbname: postgres
       schema: public
       threads: 1

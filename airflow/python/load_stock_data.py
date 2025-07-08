@@ -2,11 +2,9 @@ import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
 
-# Sélection des tickers avec Yahoo Finance
-tickers = ['^GSPC', '^STOXX50E', '^FCHI', '^NDX', '^DJI', '^N225']
+tickers = ['^GSPC', '^STOXX50E', '^FCHI', '^NDX', '^DJI', '^N225'] # Sélection des tickers avec Yahoo Finance
 
-# Calcul de la date du jour
-end_date = datetime.now()
+end_date = datetime.now() # Calcul de la date du jour
 
 # Téléchargement des données pour la journée
 open_price = pd.DataFrame()
@@ -24,6 +22,6 @@ for ticker in tickers:
     except Exception as e:
         print(f"Failed to download data for {ticker}: {e}")
 
-# Enregistrement des données
+# Enregistrement des données dans deux fichiers csv distincts
 open_price.to_csv("/usr/local/airflow/data/stock_data_prices.csv")
 volume.to_csv("/usr/local/airflow/data/stock_data_volumes.csv")
