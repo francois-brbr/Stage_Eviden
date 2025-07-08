@@ -9,10 +9,10 @@ load_dotenv()
 
 # Configuration de la connexion à la base de données PostgreSQL
 db_config = {
-    "host": "host.docker.internal", #local
-    "database": "postgres",
-    "user": "postgres",
-    "password": "Eviden2025BDX**",
+    "host": os.getenv("DB_HOST"),
+    "database": os.getenv("DB_DATABASE"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
 }
 
 # Chemin vers le fichier .csv
