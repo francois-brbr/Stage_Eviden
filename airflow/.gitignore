@@ -9,4 +9,6 @@ airflow-webserver.pid
 webserver_config.py
 airflow.cfg
 airflow.db
-profiles.yml
+dbt/profiles.yml
+include
+plugins

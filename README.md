@@ -2,7 +2,5 @@
 
 ### Data Engineer - Creation de pipelines de donnees
 
-=======
-
 ### Auteur
 *François BARBIER*
